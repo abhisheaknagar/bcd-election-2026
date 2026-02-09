@@ -30,8 +30,8 @@ a{text-decoration:none}
 
 /* Top Bar */
 .topbar{background:var(--navy-700);color:#c9d6e4;padding:8px 24px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
-.topbar-admin{background:rgba(255,255,255,0.08);color:#c9d6e4;border:1px solid rgba(255,255,255,0.12);padding:5px 10px;border-radius:6px;font-size:14px;cursor:pointer;display:flex;align-items:center;line-height:1}
-.topbar-admin:hover{background:rgba(255,255,255,0.15)}
+.topbar-admin{background:transparent;color:var(--navy-700);border:none;padding:5px 10px;border-radius:6px;font-size:14px;cursor:pointer;display:flex;align-items:center;line-height:1}
+.topbar-admin:hover{background:transparent;color:var(--navy-700)}
 
 /* Hero */
 .hero{background:linear-gradient(160deg,#0f2137 0%,#1a3a5c 40%,#1e4470 100%);padding:32px 24px 0;position:relative;overflow:hidden}
@@ -165,6 +165,8 @@ a{text-decoration:none}
   .candidate-photo{width:80px;height:100px;border-radius:10px}
   .candidate-photo span{font-size:22px}
   .candidate-title{font-size:13px;margin-top:4px}
+  .candidate-ballot-line{font-size:20px !important}
+  .candidate-ballot-num{font-size:24px !important}
   /* Appeal - readable on mobile */
   .appeal{flex-direction:column;gap:8px;padding:16px 16px;margin-top:20px}
   .appeal-emoji{font-size:24px}
@@ -176,6 +178,7 @@ a{text-decoration:none}
   .gold-strip-divider{width:60%;height:1px;background:rgba(26,58,92,0.15)}
   .gold-strip-label{font-size:9px;margin-bottom:2px}
   .gold-strip-value{font-size:16px}
+  .gold-strip-ballot{font-size:24px !important}
   /* Search */
   .search-section{padding:28px 16px 60px}
   .search-input{padding:14px 44px 14px 46px;font-size:15px}
@@ -537,6 +540,9 @@ function App() {
           <div>
             <h1 className="candidate-name">{CANDIDATE.name}</h1>
             <p className="candidate-title">{CANDIDATE.designation}</p>
+            <p className="candidate-ballot-line" style={{ fontSize: 28, fontFamily: "'DM Sans', sans-serif", fontWeight: 700, color: "#c9d6e4", marginTop: 8, lineHeight: 1.2 }}>
+              Ballot No. <span className="candidate-ballot-num" style={{ color: "var(--gold)", fontSize: 34, fontWeight: 800 }}>{CANDIDATE.ballotNo}</span>
+            </p>
           </div>
         </div>
 
@@ -561,7 +567,7 @@ function App() {
           <div className="gold-strip-divider" />
           <div className="gold-strip-item">
             <div className="gold-strip-label">Ballot Number</div>
-            <div className="gold-strip-value" style={{ color: "var(--red)" }}>{CANDIDATE.ballotNo}</div>
+            <div className="gold-strip-value gold-strip-ballot" style={{ color: "var(--red)", fontSize: "34px" }}>{CANDIDATE.ballotNo}</div>
           </div>
           <div className="gold-strip-divider" />
           <div className="gold-strip-item">
