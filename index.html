@@ -3,28 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>BCD Election 2026 — Jaibir Singh Nagar — Electoral Roll Lookup</title>
+<title>BCD Election 2026 — Jaibir Singh Nagar — Electoral Roll</title>
 <meta name="description" content="Bar Council of Delhi Election 2026 - Find your entry in the BCD Electoral Roll. Vote Jaibir Singh Nagar, Ballot No. 126.">
 <meta property="og:title" content="BCD Election 2026 — Voter Card Lookup">
 <meta property="og:description" content="Find your entry in the BCD Electoral Roll 2026. Vote Jaibir Singh Nagar — Ballot No. 126 — First Preference.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800;900&family=Source+Sans+3:wght@300;400;500;600;700&family=DM+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --navy-900: #0f2137;
-  --navy-700: #1a3a5c;
-  --navy-600: #1e4470;
-  --gold: #c9a84c;
-  --gold-light: #dbb960;
-  --gold-text: #e8dcc0;
-  --cream: #f0ece4;
-  --cream-light: #fffef9;
-  --border: #ddd8cc;
-  --text: #1e1e1e;
-  --text-muted: #8a7e6a;
-  --text-light: #6b6050;
-  --red: #b91c1c;
-  --whatsapp: #25D366;
+  --navy-900:#0f2137;--navy-700:#1a3a5c;--navy-600:#1e4470;
+  --gold:#c9a84c;--gold-light:#dbb960;--gold-text:#e8dcc0;
+  --cream:#f0ece4;--cream-light:#fffef9;--border:#ddd8cc;
+  --text:#1e1e1e;--text-muted:#8a7e6a;--text-light:#6b6050;
+  --red:#b91c1c;--whatsapp:#25D366;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Source Sans 3','Segoe UI',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
@@ -33,49 +24,51 @@ input::placeholder{color:#a09880}
 button{font-family:inherit}
 a{text-decoration:none}
 
-/* Animations */
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scaleIn{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
 
 /* Top Bar */
 .topbar{background:var(--navy-700);color:#c9d6e4;padding:8px 24px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
-.topbar button{background:rgba(255,255,255,0.1);color:#c9d6e4;border:1px solid rgba(255,255,255,0.15);padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer}
+.topbar-admin{background:rgba(255,255,255,0.08);color:#c9d6e4;border:1px solid rgba(255,255,255,0.12);padding:5px 10px;border-radius:6px;font-size:14px;cursor:pointer;display:flex;align-items:center;line-height:1}
+.topbar-admin:hover{background:rgba(255,255,255,0.15)}
 
 /* Hero */
-.hero{background:linear-gradient(160deg,#0f2137 0%,#1a3a5c 40%,#1e4470 100%);padding:36px 24px 0;position:relative;overflow:hidden}
+.hero{background:linear-gradient(160deg,#0f2137 0%,#1a3a5c 40%,#1e4470 100%);padding:32px 24px 0;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(201,168,76,0.08) 0%,transparent 60%);pointer-events:none}
 .hero-inner{display:flex;align-items:center;gap:24px;max-width:680px;margin:0 auto;position:relative;z-index:1}
 
-/* Candidate Photo */
-.candidate-photo{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#0f2137,#1e4470);display:flex;align-items:center;justify-content:center;border:3px solid var(--gold);box-shadow:0 4px 24px rgba(201,168,76,0.25);flex-shrink:0}
+/* Candidate Photo - 4:5 portrait with rounded edges */
+.candidate-photo{width:110px;height:138px;border-radius:14px;background:linear-gradient(135deg,#0f2137,#1e4470);display:flex;align-items:center;justify-content:center;border:3px solid var(--gold);box-shadow:0 4px 24px rgba(201,168,76,0.25);flex-shrink:0;overflow:hidden}
 .candidate-photo span{font-size:33px;color:var(--gold);font-family:'Playfair Display',serif;font-weight:700}
-.candidate-name{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,34px);font-weight:900;color:#fff;line-height:1.15}
-.candidate-title{font-size:15px;color:#8aa8c8;margin-top:6px;font-weight:500}
+.candidate-photo img{width:100%;height:100%;object-fit:cover}
+.candidate-name{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,34px);font-weight:900;color:#fff;line-height:1.15}
+.candidate-title{font-size:14px;color:#8aa8c8;margin-top:6px;font-weight:500}
 
-/* Appeal */
-.appeal{max-width:680px;margin:28px auto 0;background:rgba(255,255,255,0.06);border-radius:14px 14px 0 0;border:1px solid rgba(201,168,76,0.15);border-bottom:none;padding:20px 24px;display:flex;gap:16;position:relative;z-index:1}
-.appeal-emoji{font-size:28px;flex-shrink:0}
-.appeal-heading{color:#c9d6e4;font-size:15px;font-weight:600;margin-bottom:8px}
-.appeal-text{color:#9bb0c8;font-size:14px;line-height:1.65}
+/* Appeal - LARGER FONTS */
+.appeal{max-width:680px;margin:24px auto 0;background:rgba(255,255,255,0.06);border-radius:14px 14px 0 0;border:1px solid rgba(201,168,76,0.15);border-bottom:none;padding:20px 24px;display:flex;gap:16px;position:relative;z-index:1}
+.appeal-emoji{font-size:30px;flex-shrink:0}
+.appeal-heading{color:#c9d6e4;font-size:17px;font-weight:600;margin-bottom:8px}
+.appeal-text{color:#9bb0c8;font-size:16px;line-height:1.7}
 
-/* Gold Strip */
-.gold-strip{max-width:680px;margin:0 auto;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:0 0 14px 14px;padding:14px 24px;display:flex;align-items:center;gap:20;position:relative;z-index:1;margin-bottom:-7px;flex-wrap:wrap}
-.gold-strip-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--navy-700);opacity:0.7}
-.gold-strip-value{font-size:17px;font-weight:800;color:#0f2137;font-family:'Playfair Display',serif}
-.gold-strip-divider{width:1px;height:32px;background:rgba(26,58,92,0.2)}
+/* Gold Strip - CENTERED, DM Sans font, no # on ballot */
+.gold-strip{max-width:680px;margin:0 auto;background:linear-gradient(135deg,var(--gold),var(--gold-light));border-radius:0 0 14px 14px;padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:20px;position:relative;z-index:1;margin-bottom:-7px;flex-wrap:nowrap}
+.gold-strip-item{text-align:center;flex:1}
+.gold-strip-label{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--navy-700);opacity:0.65;margin-bottom:3px}
+.gold-strip-value{font-family:'DM Sans',sans-serif;font-size:17px;font-weight:800;color:#0f2137;white-space:nowrap}
+.gold-strip-divider{width:1px;height:36px;background:rgba(26,58,92,0.2);flex-shrink:0}
 
 /* Search */
-.search-section{max-width:680px;margin:0 auto;padding:36px 20px 80px}
-.search-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:800;color:#111;margin-bottom:6px;text-align:center}
-.search-subtitle{font-size:15px;color:var(--text-light);margin-bottom:22px;text-align:center}
+.search-section{max-width:680px;margin:0 auto;padding:32px 20px 80px}
+.search-title{font-family:'Playfair Display',serif;font-size:clamp(20px,4vw,26px);font-weight:800;color:#111;margin-bottom:6px;text-align:center}
+.search-subtitle{font-size:14px;color:var(--text-light);margin-bottom:20px;text-align:center}
 .search-wrap{position:relative;max-width:580px;margin:0 auto}
 .search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#a09880;display:flex}
-.search-input{width:100%;padding:17px 48px 17px 52px;font-size:16px;font-family:'Source Sans 3',sans-serif;border:2px solid #d5cfc0;border-radius:14px;background:var(--cream-light);color:var(--text);outline:none;transition:all 0.2s;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+.search-input{width:100%;padding:16px 48px 16px 52px;font-size:16px;font-family:'Source Sans 3',sans-serif;border:2px solid #d5cfc0;border-radius:14px;background:var(--cream-light);color:var(--text);outline:none;transition:all 0.2s;box-shadow:0 4px 16px rgba(0,0,0,0.04)}
 .search-input:focus{border-color:var(--navy-700)!important;box-shadow:0 0 0 3px rgba(26,58,92,0.12)!important}
 .search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:#e5dfcf;border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:14px;color:var(--text-light);display:flex;align-items:center;justify-content:center}
-.search-hints{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
-.search-hint{font-size:12px;color:var(--text-muted);background:#e8e2d5;padding:4px 12px;border-radius:20px}
+.search-hints{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.search-hint{font-size:11px;color:var(--text-muted);background:#e8e2d5;padding:3px 10px;border-radius:20px}
 
 /* Spinner */
 .spinner-wrap{display:flex;justify-content:center;padding:2.5rem}
@@ -83,12 +76,12 @@ a{text-decoration:none}
 
 /* Results */
 .results-count{font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
-.result-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:15px 18px;background:var(--cream-light);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;text-align:left;font-family:'Source Sans 3',sans-serif}
+.result-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:14px 16px;background:var(--cream-light);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:all 0.15s;text-align:left;font-family:'Source Sans 3',sans-serif}
 .result-btn:hover{border-color:var(--gold);box-shadow:0 2px 12px rgba(201,168,76,0.15)}
-.result-serial{background:var(--navy-700);color:#c9d6e4;font-weight:700;font-size:12px;padding:5px 10px;border-radius:8px;min-width:48px;text-align:center}
-.result-name{font-weight:600;font-size:15px;color:#111}
-.result-meta{font-size:13px;color:var(--text-muted);margin-top:1px}
-.result-arrow{font-size:18px;color:var(--navy-700);font-weight:700}
+.result-serial{background:var(--navy-700);color:#c9d6e4;font-weight:700;font-size:11px;padding:4px 8px;border-radius:8px;min-width:44px;text-align:center;flex-shrink:0}
+.result-name{font-weight:600;font-size:14px;color:#111}
+.result-meta{font-size:12px;color:var(--text-muted);margin-top:1px}
+.result-arrow{font-size:18px;color:var(--navy-700);font-weight:700;flex-shrink:0}
 
 /* No Results */
 .no-results{text-align:center;padding:48px 20px;background:var(--cream-light);border-radius:14px;border:1px solid var(--border)}
@@ -96,39 +89,57 @@ a{text-decoration:none}
 /* Modal Overlay */
 .modal-overlay{position:fixed;inset:0;background:rgba(10,22,40,0.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:16px;animation:fadeUp 0.15s ease}
 .modal-box{background:var(--cream-light);border-radius:18px;max-width:560px;width:100%;max-height:92vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:scaleIn 0.2s ease;border:1px solid #e0dbd0}
-.modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:22px 22px 14px;border-bottom:1px solid #ede8dd}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;padding:20px 20px 12px;border-bottom:1px solid #ede8dd}
 .modal-serial-badge{font-size:12px;font-weight:700;color:var(--navy-700);background:#e8edf4;padding:3px 10px;border-radius:6px;display:inline-block;margin-bottom:6px}
-.modal-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:#111}
-.modal-reg{font-size:14px;color:var(--text-muted);font-weight:500;margin-top:3px}
+.modal-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#111}
+.modal-reg{font-size:13px;color:var(--text-muted);font-weight:500;margin-top:3px}
 .modal-close{background:#ede8dd;border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;color:var(--text-light);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
 /* Image Tabs */
 .img-tabs{display:flex;border-bottom:1px solid #ede8dd}
-.img-tab{flex:1;padding:12px 8px;font-size:13px;font-weight:600;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Source Sans 3',sans-serif;text-align:center;transition:all 0.15s;background:transparent;color:var(--text-muted)}
+.img-tab{flex:1;padding:10px 8px;font-size:13px;font-weight:600;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:'Source Sans 3',sans-serif;text-align:center;transition:all 0.15s;background:transparent;color:var(--text-muted)}
 .img-tab.active{color:var(--navy-700);background:#f0ece4;border-bottom-color:var(--navy-700)}
-.img-display{padding:20px 22px;display:flex;justify-content:center;background:#f5f1ea;min-height:140px;align-items:center}
+.img-display{padding:16px 20px;display:flex;justify-content:center;background:#f5f1ea;min-height:120px;align-items:center}
 .img-display img{max-width:100%;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
 .img-placeholder{text-align:center;padding:24px;color:#999}
 
 /* Detail rows */
-.detail-rows{padding:18px 22px;display:flex;flex-direction:column;gap:14px}
+.detail-rows{padding:16px 20px;display:flex;flex-direction:column;gap:12px}
 .detail-row{display:flex;gap:10px;align-items:flex-start}
 .detail-icon{font-size:16px;flex-shrink:0;margin-top:1px}
 .detail-label{font-size:11px;color:var(--text-muted);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
-.detail-value{font-size:15px;font-weight:500;color:#222;margin-top:2px}
+.detail-value{font-size:14px;font-weight:500;color:#222;margin-top:2px}
 
 /* Action buttons */
-.dl-buttons{display:flex;gap:8px;padding:0 22px 12px;flex-wrap:wrap}
-.dl-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 12px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;min-width:80px}
+.dl-buttons{display:flex;gap:8px;padding:0 20px 10px;flex-wrap:wrap}
+.dl-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;padding:10px 10px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;min-width:70px}
 .dl-btn-primary{background:var(--navy-700);color:#fff}
 .dl-btn-secondary{background:#e8e2d5;color:#4a4030}
 .wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px 16px;background:var(--whatsapp);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
-.modal-footer{text-align:center;padding:12px 22px 16px;font-size:13px;background:#f0ece4;border-radius:0 0 18px 18px;border-top:1px solid #ede8dd}
+.modal-footer-appeal{text-align:center;padding:12px 20px 16px;font-size:13px;background:#f0ece4;border-radius:0 0 18px 18px;border-top:1px solid #ede8dd}
+
+/* Password Modal */
+.pw-overlay{position:fixed;inset:0;background:rgba(10,22,40,0.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:2000;padding:16px}
+.pw-box{background:var(--cream-light);border-radius:16px;max-width:380px;width:100%;padding:32px 28px;box-shadow:0 20px 60px rgba(0,0,0,0.3);text-align:center}
+.pw-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:6px}
+.pw-sub{font-size:13px;color:var(--text-muted);margin-bottom:20px}
+.pw-input{width:100%;padding:12px 16px;font-size:15px;border:2px solid #d5cfc0;border-radius:10px;outline:none;text-align:center;font-family:'Source Sans 3',sans-serif}
+.pw-input:focus{border-color:var(--navy-700)}
+.pw-error{color:var(--red);font-size:13px;margin-top:8px;font-weight:600}
+.pw-btns{display:flex;gap:10px;margin-top:18px}
+.pw-btn{flex:1;padding:11px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Source Sans 3',sans-serif}
+.pw-btn-cancel{background:#e8e2d5;color:#4a4030}
+.pw-btn-go{background:var(--navy-700);color:#fff}
 
 /* Admin */
 .admin-wrap{max-width:960px;margin:0 auto;padding:24px 20px;min-height:100vh;background:var(--cream)}
 .admin-back{background:none;border:none;color:var(--navy-700);font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px}
-.admin-title{font-family:'Playfair Display',serif;font-size:28px;color:#111;margin-bottom:20px}
+.admin-title{font-family:'Playfair Display',serif;font-size:28px;color:#111;margin-bottom:16px}
+.admin-filters{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.admin-date-input{padding:8px 12px;border:1.5px solid #d5cfc0;border-radius:8px;font-size:13px;font-family:'Source Sans 3',sans-serif;background:var(--cream-light);outline:none}
+.admin-date-input:focus{border-color:var(--navy-700)}
+.admin-filter-btn{padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--navy-700);color:#fff}
+.admin-filter-reset{padding:8px 16px;border:1.5px solid #d5cfc0;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-light)}
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
 .stat-card{background:var(--cream-light);border:1px solid var(--border);border-radius:14px;padding:20px 16px;text-align:center}
 .stat-value{font-size:36px;font-weight:800;color:var(--navy-700);font-family:'Playfair Display',serif}
@@ -142,17 +153,52 @@ a{text-decoration:none}
 /* Footer */
 .footer{text-align:center;padding:24px 20px 32px;font-size:13px;color:var(--text-muted);border-top:1px solid #ddd4c4}
 .footer-cta{font-size:15px;font-weight:600;color:var(--navy-700);background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));padding:10px 20px;border-radius:10px;display:inline-block}
+.footer-source{opacity:0.5;font-size:12px;margin-top:10px}
+.footer-source a{color:var(--navy-700);text-decoration:underline}
 
-/* Responsive */
+/* ============ RESPONSIVE ============ */
 @media(max-width:600px){
-  .hero-inner{gap:16px}
-  .candidate-photo{width:80px;height:80px}
-  .candidate-photo span{font-size:24px}
-  .appeal{flex-direction:column;gap:10px}
-  .gold-strip{gap:12px;padding:12px 18px}
-  .gold-strip-value{font-size:14px}
-  .stat-grid{grid-template-columns:1fr}
+  .topbar{padding:8px 16px;font-size:12px}
+  .hero{padding:24px 16px 0}
+  .hero-inner{gap:14px}
+  /* Portrait photo smaller on mobile */
+  .candidate-photo{width:80px;height:100px;border-radius:10px}
+  .candidate-photo span{font-size:22px}
+  .candidate-title{font-size:13px;margin-top:4px}
+  /* Appeal - readable on mobile */
+  .appeal{flex-direction:column;gap:8px;padding:16px 16px;margin-top:20px}
+  .appeal-emoji{font-size:24px}
+  .appeal-heading{font-size:15px}
+  .appeal-text{font-size:14px;line-height:1.65}
+  /* Gold strip - VERTICAL on mobile */
+  .gold-strip{flex-direction:column;gap:14px;padding:16px 20px;align-items:center}
+  .gold-strip-item{text-align:center;width:100%}
+  .gold-strip-divider{width:60%;height:1px;background:rgba(26,58,92,0.15)}
+  .gold-strip-label{font-size:9px;margin-bottom:2px}
+  .gold-strip-value{font-size:16px}
+  /* Search */
+  .search-section{padding:28px 16px 60px}
+  .search-input{padding:14px 44px 14px 46px;font-size:15px}
+  .search-hints{gap:6px}
+  .search-hint{font-size:10px;padding:3px 8px}
+  .result-btn{padding:12px 14px}
+  .result-serial{font-size:10px;padding:3px 7px;min-width:38px}
+  .result-name{font-size:13px}
+  .result-meta{font-size:11px}
+  /* Modal */
+  .modal-box{border-radius:14px}
+  .modal-header{padding:16px 16px 10px}
+  .modal-name{font-size:18px}
+  .detail-rows{padding:14px 16px}
+  .dl-buttons{padding:0 16px 8px;gap:6px}
+  .dl-btn{font-size:12px;padding:9px 8px}
+  /* Admin */
+  .stat-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+  .stat-value{font-size:24px}
+  .stat-label{font-size:9px}
   .log-header,.log-row{font-size:11px;padding:8px 12px}
+  .admin-filters{flex-direction:column;align-items:stretch}
+  .footer-cta{font-size:13px;padding:8px 16px}
 }
 </style>
 </head>
@@ -172,6 +218,8 @@ const { useState, useEffect, useCallback, useRef } = React;
 // ============================================================
 const SUPABASE_URL = "https://encksmwczzvquvsleofv.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVuY2tzbXdjenp2cXV2c2xlb2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1MzI5NjIsImV4cCI6MjA4NjEwODk2Mn0.NpM3NUsxxklU8jhZRxXoblzDVJB74vN3ifPaj33QnQ0";
+const ADMIN_PASSWORD = "Falcon2008";
+const CANDIDATE_PHOTO_URL = `${SUPABASE_URL}/storage/v1/object/public/photos/candidate.jpg`;
 
 const CANDIDATE = {
   name: "Jaibir Singh Nagar",
@@ -192,40 +240,41 @@ const imgUrl = (folder, serial) => {
   return `${SUPABASE_URL}/storage/v1/object/public/${folder}/${pre}_${pad}.png`;
 };
 
-// ============================================================
-// SEARCH
-// ============================================================
+// Force download helper
+async function forceDownload(url, filename) {
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = blobUrl; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(blobUrl);
+  } catch (e) { window.open(url, "_blank"); }
+}
+
+// Search
 async function searchLawyers(q) {
   const t = q.trim();
   if (t.length < 2) return { results: [], type: "none" };
-
   let col, op, val, searchType;
-  if (/^\d{7,}$/.test(t))       { col = "contact"; op = "ilike"; val = `*${t}*`; searchType = "phone"; }
-  else if (/^D\//i.test(t))     { col = "registration_number"; op = "ilike"; val = `*${t}*`; searchType = "registration"; }
-  else if (/^\d{1,6}$/.test(t)) { col = "serial_number"; op = "eq"; val = parseInt(t); searchType = "serial"; }
-  else                          { col = "name"; op = "ilike"; val = `*${t}*`; searchType = "name"; }
-
-  const url = `${SUPABASE_URL}/rest/v1/lawyers?${col}=${op}.${val}&order=serial_number&limit=30`;
-
+  if (/^\d{7,}$/.test(t))       { col="contact"; op="ilike"; val=`*${t}*`; searchType="phone"; }
+  else if (/^D\//i.test(t))     { col="registration_number"; op="ilike"; val=`*${t}*`; searchType="registration"; }
+  else if (/^\d{1,6}$/.test(t)) { col="serial_number"; op="eq"; val=parseInt(t); searchType="serial"; }
+  else                          { col="name"; op="ilike"; val=`*${t}*`; searchType="name"; }
   try {
-    const res = await fetch(url, { headers: SB });
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/lawyers?${col}=${op}.${val}&order=serial_number&limit=30`, { headers: SB });
     if (!res.ok) return { results: [], type: searchType };
     const data = await res.json();
     return { results: Array.isArray(data) ? data : [], type: searchType };
-  } catch (e) {
-    return { results: [], type: searchType };
-  }
+  } catch (e) { return { results: [], type: searchType }; }
 }
 
 function logSearch(q, type, count) {
   fetch(`${SUPABASE_URL}/rest/v1/search_logs`, {
-    method: "POST",
-    headers: { ...SB, Prefer: "return=minimal" },
-    body: JSON.stringify({
-      search_query: q.trim(), search_type: type,
-      results_count: count,
-      user_agent: navigator.userAgent.substring(0, 200),
-    }),
+    method: "POST", headers: { ...SB, Prefer: "return=minimal" },
+    body: JSON.stringify({ search_query: q.trim(), search_type: type, results_count: count, user_agent: navigator.userAgent.substring(0, 200) }),
   }).catch(() => {});
 }
 
@@ -233,13 +282,43 @@ function logSearch(q, type, count) {
 // COMPONENTS
 // ============================================================
 function CandidatePhoto() {
-  return (
-    <div className="candidate-photo"><span>JSN</span></div>
-  );
+  const [err, setErr] = useState(false);
+  if (CANDIDATE_PHOTO_URL && !err) {
+    return <div className="candidate-photo"><img src={CANDIDATE_PHOTO_URL} alt={CANDIDATE.name} onError={() => setErr(true)} /></div>;
+  }
+  return <div className="candidate-photo"><span>JSN</span></div>;
 }
 
 function Spinner() {
   return <div className="spinner-wrap"><div className="spinner" /></div>;
+}
+
+// Password Prompt
+function PasswordPrompt({ onSuccess, onCancel }) {
+  const [pw, setPw] = useState("");
+  const [err, setErr] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => { ref.current?.focus(); }, []);
+  const check = () => {
+    if (pw === ADMIN_PASSWORD) onSuccess();
+    else { setErr(true); setPw(""); ref.current?.focus(); }
+  };
+  return (
+    <div className="pw-overlay" onClick={onCancel}>
+      <div className="pw-box" onClick={e => e.stopPropagation()}>
+        <div className="pw-title">Admin Access</div>
+        <div className="pw-sub">Enter password to view dashboard</div>
+        <input ref={ref} className="pw-input" type="password" value={pw}
+          onChange={e => { setPw(e.target.value); setErr(false); }}
+          onKeyDown={e => e.key === "Enter" && check()} placeholder="Password" />
+        {err && <div className="pw-error">Incorrect password</div>}
+        <div className="pw-btns">
+          <button className="pw-btn pw-btn-cancel" onClick={onCancel}>Cancel</button>
+          <button className="pw-btn pw-btn-go" onClick={check}>Enter</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ============================================================
@@ -252,8 +331,7 @@ function LawyerDetail({ entry, onClose }) {
 
   const download = (type) => {
     const url = imgUrl(type === "card" ? "cards" : type === "photo" ? "photos" : "qr", entry.serial_number);
-    const a = document.createElement("a");
-    a.href = url; a.download = `BCD_${type}_${serial}.png`; a.target = "_blank"; a.click();
+    forceDownload(url, `BCD_${type}_${serial}.png`);
   };
 
   const cardUrl = imgUrl("cards", entry.serial_number);
@@ -266,7 +344,6 @@ function LawyerDetail({ entry, onClose }) {
     { id: "photo", label: "👤 Photo", maxH: 260 },
     { id: "qr", label: "📱 QR Code", maxH: 220 },
   ];
-
   const curUrl = imgUrl(tab === "card" ? "cards" : tab === "photo" ? "photos" : "qr", entry.serial_number);
   const curMaxH = tabs.find(t => t.id === tab)?.maxH || 300;
 
@@ -281,14 +358,12 @@ function LawyerDetail({ entry, onClose }) {
           </div>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
-
         <div className="img-tabs">
           {tabs.map(t => (
             <button key={t.id} className={`img-tab ${tab === t.id ? "active" : ""}`}
               onClick={() => setTab(t.id)}>{t.label}</button>
           ))}
         </div>
-
         <div className="img-display">
           {imgErr[tab] ? (
             <div className="img-placeholder">
@@ -301,38 +376,27 @@ function LawyerDetail({ entry, onClose }) {
               onError={() => setImgErr(p => ({ ...p, [tab]: true }))} />
           )}
         </div>
-
         <div className="detail-rows">
-          {[
-            ["📞", "Contact Number", entry.contact || "—"],
-            ["📍", "Address", entry.address || "—"],
-            ["🔖", "Registration Number", entry.registration_number || "—"],
-          ].map(([icon, label, val]) => (
+          {[["📞", "Contact Number", entry.contact || "—"], ["📍", "Address", entry.address || "—"], ["🔖", "Registration Number", entry.registration_number || "—"]].map(([icon, label, val]) => (
             <div className="detail-row" key={label}>
               <span className="detail-icon">{icon}</span>
-              <div>
-                <div className="detail-label">{label}</div>
-                <div className="detail-value">{val}</div>
-              </div>
+              <div><div className="detail-label">{label}</div><div className="detail-value">{val}</div></div>
             </div>
           ))}
         </div>
-
         <div className="dl-buttons">
           {[["card", "📋 Card", true], ["photo", "👤 Photo", false], ["qr", "📱 QR", false]].map(([type, label, primary]) => (
             <button key={type} onClick={() => download(type)}
               className={`dl-btn ${primary ? "dl-btn-primary" : "dl-btn-secondary"}`}>⬇ {label}</button>
           ))}
         </div>
-
-        <div style={{ padding: "0 22px 18px" }}>
+        <div style={{ padding: "0 20px 16px" }}>
           <a href={`https://wa.me/?text=${shareMsg}`} target="_blank" rel="noopener noreferrer" className="wa-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             Share via WhatsApp
           </a>
         </div>
-
-        <div className="modal-footer">
+        <div className="modal-footer-appeal">
           🗳 <strong style={{ color: "var(--navy-700)" }}>Vote {CANDIDATE.name}</strong>
           <span style={{ color: "var(--text-light)" }}> — Ballot No. {CANDIDATE.ballotNo} — First Preference</span>
         </div>
@@ -346,16 +410,19 @@ function LawyerDetail({ entry, onClose }) {
 // ============================================================
 function AdminDashboard({ onBack }) {
   const [logs, setLogs] = useState([]);
+  const [allLogs, setAllLogs] = useState([]);
   const [stats, setStats] = useState({ total: 0, today: 0, unique: 0 });
   const [loading, setLoading] = useState(true);
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/search_logs?select=*&order=created_at.desc&limit=200`, { headers: SB });
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/search_logs?select=*&order=created_at.desc&limit=500`, { headers: SB });
         const data = await res.json();
         if (Array.isArray(data)) {
-          setLogs(data);
+          setAllLogs(data); setLogs(data);
           const today = new Date().toISOString().split("T")[0];
           setStats({ total: data.length, today: data.filter(l => l.created_at?.startsWith(today)).length, unique: new Set(data.map(l => l.search_query)).size });
         }
@@ -364,27 +431,43 @@ function AdminDashboard({ onBack }) {
     })();
   }, []);
 
+  const applyFilter = () => {
+    let filtered = [...allLogs];
+    if (dateFrom) { const f = new Date(dateFrom); f.setHours(0,0,0,0); filtered = filtered.filter(l => new Date(l.created_at) >= f); }
+    if (dateTo) { const t = new Date(dateTo); t.setHours(23,59,59,999); filtered = filtered.filter(l => new Date(l.created_at) <= t); }
+    setLogs(filtered);
+    setStats({ total: filtered.length, today: filtered.filter(l => l.created_at?.startsWith(new Date().toISOString().split("T")[0])).length, unique: new Set(filtered.map(l => l.search_query)).size });
+  };
+
+  const resetFilter = () => {
+    setDateFrom(""); setDateTo(""); setLogs(allLogs);
+    const today = new Date().toISOString().split("T")[0];
+    setStats({ total: allLogs.length, today: allLogs.filter(l => l.created_at?.startsWith(today)).length, unique: new Set(allLogs.map(l => l.search_query)).size });
+  };
+
   return (
     <div className="admin-wrap">
       <button className="admin-back" onClick={onBack}>← Back to Portal</button>
       <h2 className="admin-title">Search Logs Dashboard</h2>
+      <div className="admin-filters">
+        <label style={{ fontSize: 13, fontWeight: 600, color: "var(--text-light)" }}>From:</label>
+        <input type="date" className="admin-date-input" value={dateFrom} onChange={e => setDateFrom(e.target.value)} />
+        <label style={{ fontSize: 13, fontWeight: 600, color: "var(--text-light)" }}>To:</label>
+        <input type="date" className="admin-date-input" value={dateTo} onChange={e => setDateTo(e.target.value)} />
+        <button className="admin-filter-btn" onClick={applyFilter}>Apply</button>
+        <button className="admin-filter-reset" onClick={resetFilter}>Reset</button>
+      </div>
       <div className="stat-grid">
-        {[["Total Searches", stats.total], ["Today", stats.today], ["Unique Queries", stats.unique]].map(([l, v]) => (
-          <div key={l} className="stat-card">
-            <div className="stat-value">{v}</div>
-            <div className="stat-label">{l}</div>
-          </div>
+        {[["Filtered Results", stats.total], ["Today", stats.today], ["Unique Queries", stats.unique]].map(([l, v]) => (
+          <div key={l} className="stat-card"><div className="stat-value">{v}</div><div className="stat-label">{l}</div></div>
         ))}
       </div>
       {loading ? <Spinner /> : (
         <div className="log-table">
           <div className="log-header">
-            <span style={{ flex: 1 }}>Time</span>
-            <span style={{ flex: 1.2 }}>Query</span>
-            <span style={{ flex: 0.6 }}>Type</span>
-            <span style={{ flex: 0.5 }}>Results</span>
+            <span style={{ flex: 1 }}>Time</span><span style={{ flex: 1.2 }}>Query</span><span style={{ flex: 0.6 }}>Type</span><span style={{ flex: 0.5 }}>Results</span>
           </div>
-          {logs.length === 0 && <div style={{ padding: 24, textAlign: "center", color: "#999" }}>No search logs yet</div>}
+          {logs.length === 0 && <div style={{ padding: 24, textAlign: "center", color: "#999" }}>No search logs found</div>}
           {logs.map((log, i) => (
             <div key={log.id || i} className="log-row">
               <span style={{ flex: 1, fontSize: 12, color: "#888" }}>{new Date(log.created_at).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
@@ -414,6 +497,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showPwPrompt, setShowPwPrompt] = useState(false);
   const inputRef = useRef(null);
   const debounceRef = useRef(null);
 
@@ -421,8 +505,7 @@ function App() {
     if (!q || q.trim().length < 2) { setResults([]); setSearched(false); return; }
     setLoading(true); setSearched(true);
     const { results: data, type } = await searchLawyers(q);
-    setResults(data);
-    setLoading(false);
+    setResults(data); setLoading(false);
     logSearch(q, type, data.length);
   }, []);
 
@@ -432,21 +515,19 @@ function App() {
     debounceRef.current = setTimeout(() => doSearch(e.target.value), 450);
   };
 
-  const clearSearch = () => {
-    setQuery(""); setResults([]); setSearched(false);
-    inputRef.current?.focus();
-  };
-
+  const clearSearch = () => { setQuery(""); setResults([]); setSearched(false); inputRef.current?.focus(); };
   useEffect(() => () => { if (debounceRef.current) clearTimeout(debounceRef.current); }, []);
 
   if (showAdmin) return <AdminDashboard onBack={() => setShowAdmin(false)} />;
 
   return (
     <div>
+      {showPwPrompt && <PasswordPrompt onSuccess={() => { setShowPwPrompt(false); setShowAdmin(true); }} onCancel={() => setShowPwPrompt(false)} />}
+
       {/* Top Bar */}
       <div className="topbar">
-        <span>🗳 BCD Election 2026 — Electoral Roll Lookup</span>
-        <button onClick={() => setShowAdmin(true)}>Admin ↗</button>
+        <span>🗳 BCD Election 2026 — Electoral Roll</span>
+        <button className="topbar-admin" onClick={() => setShowPwPrompt(true)}>↗</button>
       </div>
 
       {/* Hero */}
@@ -473,17 +554,17 @@ function App() {
         </div>
 
         <div className="gold-strip">
-          <div>
+          <div className="gold-strip-item">
             <div className="gold-strip-label">Election Dates</div>
-            <div className="gold-strip-value">20 · 21 · 22 February 2026</div>
+            <div className="gold-strip-value">21 · 22 · 23 Feb 2026</div>
           </div>
           <div className="gold-strip-divider" />
-          <div>
+          <div className="gold-strip-item">
             <div className="gold-strip-label">Ballot Number</div>
-            <div className="gold-strip-value" style={{ color: "var(--red)" }}>#{CANDIDATE.ballotNo}</div>
+            <div className="gold-strip-value" style={{ color: "var(--red)" }}>{CANDIDATE.ballotNo}</div>
           </div>
           <div className="gold-strip-divider" />
-          <div>
+          <div className="gold-strip-item">
             <div className="gold-strip-label">Contact</div>
             <div className="gold-strip-value">{CANDIDATE.phone}</div>
           </div>
@@ -495,18 +576,14 @@ function App() {
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <h2 className="search-title">Find Your Entry in the Electoral Roll</h2>
           <p className="search-subtitle">Verify your details in the BCD Final Voter List 2026</p>
-
           <div className="search-wrap">
             <span className="search-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             </span>
             <input ref={inputRef} className="search-input" type="text" value={query}
-              onChange={handleInput}
-              placeholder="Enter phone number, name, or registration number..."
-              autoFocus />
+              onChange={handleInput} placeholder="Enter phone number, name, or registration number..." autoFocus />
             {query && <button className="search-clear" onClick={clearSearch}>✕</button>}
           </div>
-
           <div className="search-hints">
             {["📱 Phone Number", "👤 Full Name", "📋 Reg. No.", "🔢 Serial No."].map(h => (
               <span key={h} className="search-hint">{h}</span>
@@ -516,7 +593,6 @@ function App() {
 
         <div style={{ minHeight: 80 }}>
           {loading && <Spinner />}
-
           {!loading && searched && results.length === 0 && (
             <div className="no-results">
               <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
@@ -524,7 +600,6 @@ function App() {
               <div style={{ color: "#888", marginTop: 6, fontSize: 14 }}>Try a different phone number, name, or registration number</div>
             </div>
           )}
-
           {!loading && results.length > 0 && (
             <div>
               <div className="results-count">{results.length} result{results.length !== 1 ? "s" : ""} found</div>
@@ -550,9 +625,9 @@ function App() {
       {/* Footer */}
       <footer className="footer">
         <div className="footer-cta">
-          🗳 Vote <strong>{CANDIDATE.name}</strong> — Ballot No. {CANDIDATE.ballotNo} — First Preference — 20·21·22 Feb 2026
+          🗳 Vote <strong>{CANDIDATE.name}</strong> — Ballot No. {CANDIDATE.ballotNo} — First Preference — 21·22·23 Feb 2026
         </div>
-        <p style={{ opacity: 0.5, fontSize: 12, marginTop: 10 }}>Electoral Roll data sourced from BCD Final Voter List 2026</p>
+        <p className="footer-source">Electoral Roll data sourced from official website of <a href="https://delhibarcouncil.com/final_voter_list.php" target="_blank" rel="noopener noreferrer">Bar Council of Delhi</a></p>
       </footer>
 
       {selected && <LawyerDetail entry={selected} onClose={() => setSelected(null)} />}
@@ -562,6 +637,5 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("app")).render(<App />);
 </script>
-
 </body>
 </html>
