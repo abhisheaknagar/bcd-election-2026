@@ -30,8 +30,8 @@ a{text-decoration:none}
 
 /* Top Bar */
 .topbar{background:var(--navy-700);color:#c9d6e4;padding:8px 24px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
-.topbar-admin{background:transparent;color:var(--navy-700);border:none;padding:5px 10px;border-radius:6px;font-size:14px;cursor:pointer;display:flex;align-items:center;line-height:1}
-.topbar-admin:hover{background:transparent;color:var(--navy-700)}
+.topbar-admin{background:transparent;color:transparent;border:none;padding:5px 10px;border-radius:0;font-size:14px;cursor:pointer;display:flex;align-items:center;line-height:1;-webkit-appearance:none;appearance:none;outline:none;-webkit-tap-highlight-color:transparent;opacity:0;width:40px;height:30px}
+.topbar-admin:hover{background:transparent;color:transparent}
 
 /* Hero */
 .hero{background:linear-gradient(160deg,#0f2137 0%,#1a3a5c 40%,#1e4470 100%);padding:32px 24px 0;position:relative;overflow:hidden}
@@ -261,11 +261,16 @@ async function forceDownload(url, filename) {
 async function searchLawyers(q) {
   const t = q.trim();
   if (t.length < 2) return { results: [], type: "none" };
+
+  // Strip +91, 0091, spaces, dashes, dots to get clean digits for phone detection
+  const cleaned = t.replace(/[\s\-\.\(\)]/g, "").replace(/^(\+91|0091|91)/, "");
+
   let col, op, val, searchType;
-  if (/^\d{7,}$/.test(t))       { col="contact"; op="ilike"; val=`*${t}*`; searchType="phone"; }
-  else if (/^D\//i.test(t))     { col="registration_number"; op="ilike"; val=`*${t}*`; searchType="registration"; }
-  else if (/^\d{1,6}$/.test(t)) { col="serial_number"; op="eq"; val=parseInt(t); searchType="serial"; }
-  else                          { col="name"; op="ilike"; val=`*${t}*`; searchType="name"; }
+  // Phone: if cleaned version is 7+ digits (handles +91 9810027994, 98100 27994, etc.)
+  if (/^\d{7,10}$/.test(cleaned))  { col="contact"; op="ilike"; val=`*${cleaned}*`; searchType="phone"; }
+  else if (/^D\//i.test(t))        { col="registration_number"; op="ilike"; val=`*${t}*`; searchType="registration"; }
+  else if (/^\d{1,6}$/.test(t))    { col="serial_number"; op="eq"; val=parseInt(t); searchType="serial"; }
+  else                             { col="name"; op="ilike"; val=`*${t}*`; searchType="name"; }
   try {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/lawyers?${col}=${op}.${val}&order=serial_number&limit=30`, { headers: SB });
     if (!res.ok) return { results: [], type: searchType };
@@ -380,10 +385,16 @@ function LawyerDetail({ entry, onClose }) {
           )}
         </div>
         <div className="detail-rows">
-          {[["📞", "Contact Number", entry.contact || "—"], ["📍", "Address", entry.address || "—"], ["🔖", "Registration Number", entry.registration_number || "—"]].map(([icon, label, val]) => (
+          {[["📞", "Contact Number", entry.contact, true], ["📍", "Address", entry.address || "—", false], ["🔖", "Registration Number", entry.registration_number || "—", false]].map(([icon, label, val, isPhone]) => (
             <div className="detail-row" key={label}>
               <span className="detail-icon">{icon}</span>
-              <div><div className="detail-label">{label}</div><div className="detail-value">{val}</div></div>
+              <div><div className="detail-label">{label}</div>
+                {isPhone && val && val !== "—" ? (
+                  <div className="detail-value"><a href={`tel:+91${val.replace(/\D/g,"")}`} style={{ color: "#1a3a5c", textDecoration: "none", borderBottom: "1px dashed #c9a84c" }}>{val}</a></div>
+                ) : (
+                  <div className="detail-value">{val || "—"}</div>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -572,7 +583,7 @@ function App() {
           <div className="gold-strip-divider" />
           <div className="gold-strip-item">
             <div className="gold-strip-label">Contact</div>
-            <div className="gold-strip-value">{CANDIDATE.phone}</div>
+            <div className="gold-strip-value"><a href="tel:+919999647017" style={{ color: "#0f2137", textDecoration: "none" }}>{CANDIDATE.phone}</a></div>
           </div>
         </div>
       </header>
