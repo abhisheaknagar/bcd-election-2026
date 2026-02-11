@@ -286,6 +286,21 @@ function logSearch(q, type, count) {
   }).catch(() => {});
 }
 
+function logView(entry, searchQuery, searchType) {
+  fetch(`${SUPABASE_URL}/rest/v1/view_logs`, {
+    method: "POST", headers: { ...SB, Prefer: "return=minimal" },
+    body: JSON.stringify({
+      serial_number: entry.serial_number,
+      name: entry.name,
+      contact: entry.contact || "",
+      registration_number: entry.registration_number || "",
+      search_query: searchQuery || "",
+      search_type: searchType || "",
+      user_agent: navigator.userAgent.substring(0, 200),
+    }),
+  }).catch(() => {});
+}
+
 // ============================================================
 // COMPONENTS
 // ============================================================
@@ -332,10 +347,15 @@ function PasswordPrompt({ onSuccess, onCancel }) {
 // ============================================================
 // LAWYER DETAIL MODAL
 // ============================================================
-function LawyerDetail({ entry, onClose }) {
+function LawyerDetail({ entry, onClose, searchQuery, searchType }) {
   const [tab, setTab] = useState("card");
   const [imgErr, setImgErr] = useState({});
   const serial = String(entry.serial_number).padStart(6, "0");
+
+  // Log this detail view on mount
+  useEffect(() => {
+    logView(entry, searchQuery, searchType);
+  }, []);
 
   const download = (type) => {
     const url = imgUrl(type === "card" ? "cards" : type === "photo" ? "photos" : "qr", entry.serial_number);
@@ -423,46 +443,84 @@ function LawyerDetail({ entry, onClose }) {
 // ADMIN DASHBOARD
 // ============================================================
 function AdminDashboard({ onBack }) {
-  const [logs, setLogs] = useState([]);
-  const [allLogs, setAllLogs] = useState([]);
-  const [stats, setStats] = useState({ total: 0, today: 0, unique: 0 });
+  const [activeTab, setActiveTab] = useState("searches");
+  const [searchLogs, setSearchLogs] = useState([]);
+  const [allSearchLogs, setAllSearchLogs] = useState([]);
+  const [viewLogs, setViewLogs] = useState([]);
+  const [allViewLogs, setAllViewLogs] = useState([]);
+  const [searchStats, setSearchStats] = useState({ total: 0, today: 0, unique: 0 });
+  const [viewStats, setViewStats] = useState({ total: 0, today: 0, unique: 0 });
   const [loading, setLoading] = useState(true);
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
 
+  const calcStats = (data, uniqueField) => {
+    const today = new Date().toISOString().split("T")[0];
+    return {
+      total: data.length,
+      today: data.filter(l => l.created_at?.startsWith(today)).length,
+      unique: new Set(data.map(l => l[uniqueField])).size,
+    };
+  };
+
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/search_logs?select=*&order=created_at.desc&limit=500`, { headers: SB });
-        const data = await res.json();
-        if (Array.isArray(data)) {
-          setAllLogs(data); setLogs(data);
-          const today = new Date().toISOString().split("T")[0];
-          setStats({ total: data.length, today: data.filter(l => l.created_at?.startsWith(today)).length, unique: new Set(data.map(l => l.search_query)).size });
-        }
+        const [sRes, vRes] = await Promise.all([
+          fetch(`${SUPABASE_URL}/rest/v1/search_logs?select=*&order=created_at.desc&limit=500`, { headers: SB }),
+          fetch(`${SUPABASE_URL}/rest/v1/view_logs?select=*&order=created_at.desc&limit=500`, { headers: SB }),
+        ]);
+        const sData = await sRes.json();
+        const vData = await vRes.json();
+        if (Array.isArray(sData)) { setAllSearchLogs(sData); setSearchLogs(sData); setSearchStats(calcStats(sData, "search_query")); }
+        if (Array.isArray(vData)) { setAllViewLogs(vData); setViewLogs(vData); setViewStats(calcStats(vData, "serial_number")); }
       } catch (e) {}
       setLoading(false);
     })();
   }, []);
 
   const applyFilter = () => {
-    let filtered = [...allLogs];
-    if (dateFrom) { const f = new Date(dateFrom); f.setHours(0,0,0,0); filtered = filtered.filter(l => new Date(l.created_at) >= f); }
-    if (dateTo) { const t = new Date(dateTo); t.setHours(23,59,59,999); filtered = filtered.filter(l => new Date(l.created_at) <= t); }
-    setLogs(filtered);
-    setStats({ total: filtered.length, today: filtered.filter(l => l.created_at?.startsWith(new Date().toISOString().split("T")[0])).length, unique: new Set(filtered.map(l => l.search_query)).size });
+    const filterByDate = (arr) => {
+      let f = [...arr];
+      if (dateFrom) { const d = new Date(dateFrom); d.setHours(0,0,0,0); f = f.filter(l => new Date(l.created_at) >= d); }
+      if (dateTo) { const d = new Date(dateTo); d.setHours(23,59,59,999); f = f.filter(l => new Date(l.created_at) <= d); }
+      return f;
+    };
+    const fs = filterByDate(allSearchLogs);
+    const fv = filterByDate(allViewLogs);
+    setSearchLogs(fs); setSearchStats(calcStats(fs, "search_query"));
+    setViewLogs(fv); setViewStats(calcStats(fv, "serial_number"));
   };
 
   const resetFilter = () => {
-    setDateFrom(""); setDateTo(""); setLogs(allLogs);
-    const today = new Date().toISOString().split("T")[0];
-    setStats({ total: allLogs.length, today: allLogs.filter(l => l.created_at?.startsWith(today)).length, unique: new Set(allLogs.map(l => l.search_query)).size });
+    setDateFrom(""); setDateTo("");
+    setSearchLogs(allSearchLogs); setSearchStats(calcStats(allSearchLogs, "search_query"));
+    setViewLogs(allViewLogs); setViewStats(calcStats(allViewLogs, "serial_number"));
   };
+
+  const logs = activeTab === "searches" ? searchLogs : viewLogs;
+  const stats = activeTab === "searches" ? searchStats : viewStats;
 
   return (
     <div className="admin-wrap">
       <button className="admin-back" onClick={onBack}>← Back to Portal</button>
-      <h2 className="admin-title">Search Logs Dashboard</h2>
+      <h2 className="admin-title">Admin Dashboard</h2>
+
+      {/* Tab Switcher */}
+      <div style={{ display: "flex", gap: 0, marginBottom: 20, background: "#e8e2d5", borderRadius: 10, padding: 3 }}>
+        {[["searches", "🔍 Search Logs"], ["views", "👁 Detail Views"]].map(([id, label]) => (
+          <button key={id} onClick={() => setActiveTab(id)} style={{
+            flex: 1, padding: "10px 16px", border: "none", borderRadius: 8,
+            fontSize: 14, fontWeight: 600, cursor: "pointer",
+            fontFamily: "'Source Sans 3', sans-serif",
+            background: activeTab === id ? "var(--navy-700)" : "transparent",
+            color: activeTab === id ? "#fff" : "var(--text-muted)",
+            transition: "all 0.15s",
+          }}>{label}</button>
+        ))}
+      </div>
+
+      {/* Date Filters */}
       <div className="admin-filters">
         <label style={{ fontSize: 13, fontWeight: 600, color: "var(--text-light)" }}>From:</label>
         <input type="date" className="admin-date-input" value={dateFrom} onChange={e => setDateFrom(e.target.value)} />
@@ -471,30 +529,64 @@ function AdminDashboard({ onBack }) {
         <button className="admin-filter-btn" onClick={applyFilter}>Apply</button>
         <button className="admin-filter-reset" onClick={resetFilter}>Reset</button>
       </div>
+
+      {/* Stats */}
       <div className="stat-grid">
-        {[["Filtered Results", stats.total], ["Today", stats.today], ["Unique Queries", stats.unique]].map(([l, v]) => (
-          <div key={l} className="stat-card"><div className="stat-value">{v}</div><div className="stat-label">{l}</div></div>
-        ))}
+        {activeTab === "searches" ? (
+          [["Total Searches", stats.total], ["Today", stats.today], ["Unique Queries", stats.unique]].map(([l, v]) => (
+            <div key={l} className="stat-card"><div className="stat-value">{v}</div><div className="stat-label">{l}</div></div>
+          ))
+        ) : (
+          [["Total Views", stats.total], ["Today", stats.today], ["Unique Lawyers", stats.unique]].map(([l, v]) => (
+            <div key={l} className="stat-card"><div className="stat-value">{v}</div><div className="stat-label">{l}</div></div>
+          ))
+        )}
       </div>
+
+      {/* Table */}
       {loading ? <Spinner /> : (
         <div className="log-table">
-          <div className="log-header">
-            <span style={{ flex: 1 }}>Time</span><span style={{ flex: 1.2 }}>Query</span><span style={{ flex: 0.6 }}>Type</span><span style={{ flex: 0.5 }}>Results</span>
-          </div>
-          {logs.length === 0 && <div style={{ padding: 24, textAlign: "center", color: "#999" }}>No search logs found</div>}
-          {logs.map((log, i) => (
-            <div key={log.id || i} className="log-row">
-              <span style={{ flex: 1, fontSize: 12, color: "#888" }}>{new Date(log.created_at).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
-              <span style={{ flex: 1.2, fontWeight: 600 }}>{log.search_query}</span>
-              <span style={{ flex: 0.6 }}>
-                <span className="log-badge" style={{
-                  background: log.search_type === "phone" ? "#e8f5e9" : log.search_type === "name" ? "#e3f2fd" : "#fef3c7",
-                  color: log.search_type === "phone" ? "#2e7d32" : log.search_type === "name" ? "#1565c0" : "#92400e",
-                }}>{log.search_type}</span>
-              </span>
-              <span style={{ flex: 0.5, color: "#666" }}>{log.results_count ?? "—"}</span>
-            </div>
-          ))}
+          {activeTab === "searches" ? (
+            <>
+              <div className="log-header">
+                <span style={{ flex: 1 }}>Time</span><span style={{ flex: 1.2 }}>Query</span><span style={{ flex: 0.6 }}>Type</span><span style={{ flex: 0.5 }}>Results</span>
+              </div>
+              {logs.length === 0 && <div style={{ padding: 24, textAlign: "center", color: "#999" }}>No search logs found</div>}
+              {logs.map((log, i) => (
+                <div key={log.id || i} className="log-row">
+                  <span style={{ flex: 1, fontSize: 12, color: "#888" }}>{new Date(log.created_at).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+                  <span style={{ flex: 1.2, fontWeight: 600 }}>{log.search_query}</span>
+                  <span style={{ flex: 0.6 }}>
+                    <span className="log-badge" style={{
+                      background: log.search_type === "phone" ? "#e8f5e9" : log.search_type === "name" ? "#e3f2fd" : "#fef3c7",
+                      color: log.search_type === "phone" ? "#2e7d32" : log.search_type === "name" ? "#1565c0" : "#92400e",
+                    }}>{log.search_type}</span>
+                  </span>
+                  <span style={{ flex: 0.5, color: "#666" }}>{log.results_count ?? "—"}</span>
+                </div>
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="log-header">
+                <span style={{ flex: 0.8 }}>Time</span><span style={{ flex: 1.2 }}>Lawyer Name</span><span style={{ flex: 0.5 }}>Serial</span><span style={{ flex: 0.8 }}>Contact</span><span style={{ flex: 1 }}>Searched</span>
+              </div>
+              {logs.length === 0 && <div style={{ padding: 24, textAlign: "center", color: "#999" }}>No detail views yet</div>}
+              {logs.map((log, i) => (
+                <div key={log.id || i} className="log-row">
+                  <span style={{ flex: 0.8, fontSize: 12, color: "#888" }}>{new Date(log.created_at).toLocaleString("en-IN", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+                  <span style={{ flex: 1.2, fontWeight: 600 }}>{log.name}</span>
+                  <span style={{ flex: 0.5 }}>#{log.serial_number}</span>
+                  <span style={{ flex: 0.8, fontSize: 12, color: "#666" }}>{log.contact}</span>
+                  <span style={{ flex: 1, fontSize: 12, color: "#888" }}>{log.search_query} <span className="log-badge" style={{
+                    background: log.search_type === "phone" ? "#e8f5e9" : log.search_type === "name" ? "#e3f2fd" : "#fef3c7",
+                    color: log.search_type === "phone" ? "#2e7d32" : log.search_type === "name" ? "#1565c0" : "#92400e",
+                    marginLeft: 4,
+                  }}>{log.search_type}</span></span>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       )}
     </div>
@@ -512,6 +604,7 @@ function App() {
   const [searched, setSearched] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showPwPrompt, setShowPwPrompt] = useState(false);
+  const [lastSearchType, setLastSearchType] = useState("");
   const inputRef = useRef(null);
   const debounceRef = useRef(null);
 
@@ -520,6 +613,7 @@ function App() {
     setLoading(true); setSearched(true);
     const { results: data, type } = await searchLawyers(q);
     setResults(data); setLoading(false);
+    setLastSearchType(type);
     logSearch(q, type, data.length);
   }, []);
 
@@ -647,7 +741,7 @@ function App() {
         <p className="footer-source">Electoral Roll data sourced from official website of <a href="https://delhibarcouncil.com/final_voter_list.php" target="_blank" rel="noopener noreferrer">Bar Council of Delhi</a></p>
       </footer>
 
-      {selected && <LawyerDetail entry={selected} onClose={() => setSelected(null)} />}
+      {selected && <LawyerDetail entry={selected} onClose={() => setSelected(null)} searchQuery={query} searchType={lastSearchType} />}
     </div>
   );
 }
